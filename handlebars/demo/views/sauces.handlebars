@@ -1,0 +1,11 @@
+<section>
+    <h2>There are {{sauceList.length }} sauces</h2>
+    {{#each sauceList}}
+    <article class= "clearfix item-container block">
+        <h2>{{name}}</h2>
+        <img class = "item-png" src="{{image}}" />
+        <a class="btn" href="/sauces/{{id}}">View Sauce</a>
+
+    </article>
+    {{/each}}
+</section>
