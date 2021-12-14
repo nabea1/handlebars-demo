@@ -14,11 +14,18 @@ initialiseDb();
 const app = express();
 const port = 3000;
 
-
-
+app.use(express.json());
+// serve static assets from the public/ folder
 app.use(express.static('public'));
 
-app.use(express.json());
+//Configures handlebars library to work well w/ Express + Sequelize model
+const handlebars = expressHandlebars({
+    handlebars : allowInsecurePrototypeAccess(Handlebars)
+})
+
+//Tell this express app we're using handlebars
+app.engine('handlebars', handlebars);
+app.set('view engine', 'handlebars')
 
 
 const restaurantChecks = [
@@ -28,17 +35,19 @@ const restaurantChecks = [
 ]
 
 app.get('/restaurants', async (req, res) => {
-    const restaurants = await Restaurant.findAll();
-    res.json(restaurants);
+    const restaurantList = await Restaurant.findAll();
+    res.render('restaurants', {restaurantList})
+    // res.json(restaurants);
 });
 
 app.get('/restaurants/:id', async (req, res) => {
-    const restaurant = await Restaurant.findByPk(req.params.id, {include: {
+    const onerestaurant = await Restaurant.findByPk(req.params.id, {include: {
             model: Menu,
             include: MenuItem
         }
     });
-    res.json(restaurant);
+    res.render('onerestaurant', {onerestaurant})
+    // res.json(restaurant);
 });
 
 app.post('/restaurants', restaurantChecks, async (req, res) => {
