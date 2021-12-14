@@ -1,0 +1,11 @@
+<section>
+    <h2>There are {{restaurantList.length}} restaurants</h2>
+    {{!-- for each element in restaurant list, show this html--}}
+    {{#each restaurantList}}
+    <article class="clearfix item-container block">
+        <h2>{{name}}</h2>
+        <img class="item-img" src="{{image}}"/>
+        <a class="btn" href="/restaurants/{{id}}">View Restaurant</a>
+    </article>
+    {{/each}}
+</section>
